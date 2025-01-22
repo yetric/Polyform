@@ -1,8 +1,8 @@
-import { expect, test, vi } from 'vitest';
-import { createNode, Node } from '../src';
-import { DOMRenderer } from '../src';
+import { expect, test, vi } from "vitest";
+import { createNode, Node } from "../src";
+import { DOMRenderer } from "../src";
 
-test('Lifecycle hooks are called', () => {
+test("Lifecycle hooks are called", () => {
     const onMount = vi.fn();
     const onUpdate = vi.fn();
     const onUnmount = vi.fn();
@@ -10,16 +10,16 @@ test('Lifecycle hooks are called', () => {
     const children: Node[] = [];
 
     const node = createNode(
-        'container',
+        "container",
         {
-            id: 'test',
+            id: "test",
         },
         children,
         {
             onMount,
             onUpdate,
             onUnmount,
-        } // Pass hooks as a separate object
+        }, // Pass hooks as a separate object
     );
 
     const renderer = new DOMRenderer();

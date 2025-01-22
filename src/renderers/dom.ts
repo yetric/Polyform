@@ -1,70 +1,57 @@
-import { Node } from '../core/node';
-import { Renderer } from '../core/renderer';
+import { Node } from "../core/node";
+import { Renderer } from "../core/renderer";
 
 export class DOMRenderer implements Renderer {
     render(node: Node, parent: HTMLElement) {
         let el: HTMLElement;
 
+        // Create element based on type
         switch (node.type) {
-            case 'container':
-                el = document.createElement('div');
-                break;
-            case 'text':
-                el = document.createElement('span');
-                el.textContent = node.props.text || '';
-                break;
-            case 'button':
-                el = document.createElement('button');
-                el.textContent = node.props.label || '';
-                if (node.props.onClick) {
-                    el.addEventListener('click', node.props.onClick);
-                }
-                break;
-            case 'image':
-                el = document.createElement('img') as HTMLImageElement;
-                if (node.props.src) {
-                    (el as HTMLImageElement).src = node.props.src;
-                }
+            case "text":
+                el = document.createElement("span");
+                el.textContent = node.props.text || "";
                 break;
             default:
-                throw new Error(`Unsupported node type: ${node.type}`);
+                el = document.createElement(node.type);
         }
 
+        // Set attributes
         Object.entries(node.props).forEach(([key, value]) => {
-            if (!['text', 'label', 'src', 'onClick'].includes(key)) {
+            if (key !== "text") {
                 el.setAttribute(key, value);
             }
         });
 
+        // Render children
         node.children.forEach((child) => this.render(child, el));
         parent.appendChild(el);
 
-        if (node.hooks?.onMount) node.hooks.onMount(node);
+        // Trigger onMount
+        if (node.hooks?.onMount) {
+            node.hooks.onMount(node);
+        }
+
+        // Attach state subscriptions
+        if (node.state) {
+            node.state.subscribe(() => {
+                this.update(node, el);
+            });
+        }
     }
 
     update(node: Node, parent: HTMLElement) {
-        const el = parent.querySelector(`#${node.props.id}`);
-        if (!el) return;
-
-        Object.entries(node.props).forEach(([key, value]) => {
-            if (key.startsWith('on')) {
-                el.addEventListener(key.slice(2).toLowerCase(), value);
-            } else {
-                el.setAttribute(key, value);
-            }
-        });
-
-        // Call the onUpdate hook
-        if (node.hooks?.onUpdate) node.hooks.onUpdate(node);
+        if (node.props.text) {
+            parent.textContent = node.props.text;
+        }
+        if (node.hooks?.onUpdate) {
+            node.hooks.onUpdate(node);
+        }
     }
 
     remove(node: Node, parent: HTMLElement) {
-        const el = parent.querySelector(`#${node.props.id}`);
-        if (el) {
-            parent.removeChild(el);
-
-            // Call the onUnmount hook
-            if (node.hooks?.onUnmount) node.hooks.onUnmount(node);
+        if (node.hooks?.onUnmount) {
+            node.hooks.onUnmount(node);
         }
+        parent.removeChild(parent.querySelector(`#${node.props.id}`)!);
     }
 }

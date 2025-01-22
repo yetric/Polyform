@@ -1,25 +1,25 @@
 {
-  "name": "yetric/polyform",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "build": "esbuild src/index.ts --bundle --outfile=dist/polyform.js",
-    "test": "vitest run",
-    "dev": "esbuild src/index.ts --bundle --outfile=dist/polyform.js --watch",
-    "lint": "eslint src --ext .ts",
-    "format": "prettier --write ."
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "description": "",
-  "devDependencies": {
-    "@types/node": "^22.10.7",
-    "esbuild": "^0.24.2",
-    "eslint": "^9.18.0",
-    "jsdom": "^26.0.0",
-    "prettier": "^3.4.2",
-    "typescript": "^5.7.3",
-    "vitest": "^3.0.3"
-  }
+    "name": "yetric/polyform",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "build": "esbuild src/index.ts --bundle --outfile=dist/polyform.js",
+        "test": "vitest run",
+        "dev": "esbuild src/index.ts --bundle --outfile=dist/polyform.js --watch",
+        "lint": "eslint src --ext .ts",
+        "format": "prettier --write ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "description": "",
+    "devDependencies": {
+        "@types/node": "^22.10.7",
+        "esbuild": "^0.24.2",
+        "eslint": "^9.18.0",
+        "jsdom": "^26.0.0",
+        "prettier": "^3.4.2",
+        "typescript": "^5.7.3",
+        "vitest": "^3.0.3"
+    }
 }
