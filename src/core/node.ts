@@ -1,5 +1,7 @@
+export type NodeType = 'container' | 'text' | 'button' | 'image' | 'shape';
+
 export interface Node {
-    type: string;
+    type: NodeType; // Use the abstract NodeType
     props: Record<string, any>;
     children: Node[];
     hooks?: {
@@ -10,14 +12,15 @@ export interface Node {
 }
 
 export function createNode(
-    type: string,
+    type: NodeType,
     props: Record<string, any> = {},
     children: Node[] = [],
-    hooks?: {
+    hooks: {
         onMount?: (node: Node) => void;
         onUpdate?: (node: Node) => void;
         onUnmount?: (node: Node) => void;
-    }
+    } = {}
 ): Node {
     return { type, props, children, hooks };
 }
+

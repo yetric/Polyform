@@ -10,7 +10,7 @@ test('Lifecycle hooks are called', () => {
     const children: Node[] = [];
 
     const node = createNode(
-        'div',
+        'container',
         {
             id: 'test',
         },
